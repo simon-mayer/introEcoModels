@@ -1,9 +1,15 @@
 Package: introEcoModels
-Title: What the Package Does (One Line, Title Case)
+Title: Get Introduced To Basic Ecological Models
 Version: 0.0.0.9000
-Authors@R: 
-    person("Simon", "Mayer", , "simon_mayer@posteo.de", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
+Authors@R: c(
+      person("Lisa", "Hülsmann", email="lisa.huelsmann@uni-bayreuth.de",
+        role = c("aut")),
+      person("Simon", "Mayer", , email="simon.mayer@uni-bayreuth.de",
+        role = c("aut", "cre")))
+Description: Shows the functioning of basic ecological models from simple growth
+  over logistic growth to Lotka-Volterra. Exposes structure by qouting essential
+  code and giving an interactive playground with modifiable model parameters 
+  using Shiny.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
