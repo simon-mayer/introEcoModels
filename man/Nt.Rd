@@ -7,7 +7,7 @@
 Nt(r, K, N, t)
 }
 \arguments{
-\item{r}{Zahl zwischen 0 und 1, gibt Wachstumsrate an}
+\item{r}{Zahl zwischen -0.1 und 4, gibt Wachstumsrate an}
 
 \item{K}{Zahl, gibt Carrying Capacity der Umwelt an ~ max Population}
 
@@ -16,7 +16,7 @@ Nt(r, K, N, t)
 \item{t}{Zahl Endzeitpunkt der Simulation}
 }
 \value{
-Array von Zahlen, hält am Index t Populationsgröße zur Zeit t
+Vektor von Zahlen, hält am Index t Populationsgröße zur Zeit t
 }
 \description{
 Modellfunktion für diskretes logistisches Wachstum
