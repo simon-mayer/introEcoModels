@@ -22,5 +22,5 @@ use_package("ggplot2")
 document()
 load_all()
 use_rstudio()
-
+use_package("pkgload")
 
