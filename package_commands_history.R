@@ -24,3 +24,6 @@ load_all()
 use_rstudio()
 use_package("pkgload")
 
+#10.05
+install.packages("shinyjs")
+usethis::use_package("shinyjs")
