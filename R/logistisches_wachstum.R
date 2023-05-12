@@ -33,7 +33,7 @@ Nt <- function(r, K, N_k, t) { # Parameter
 }
 
 logisticUI <- function(id){
-  tabPanel("Logistic Model",
+  tabPanel("Logistisches Modell",
     tags$script("function show_hide(identifier) {
                     var x = document.getElementById(identifier);
                     if (x.style.display === 'none') {
