@@ -30,3 +30,7 @@ usethis::use_package("shinyjs")
 
 #13.05
 usethis::use_package("htmltools")
+getwd()
+load(paste0(getwd(), "/../../Programming_Lisa/hydrodata.Rdata"))
+usethis::use_data(hydrodat)
+
