@@ -15,15 +15,7 @@ model = function(S4, S5, E = 0.57) {
 
 
 lachsUI <- function(id){
-  tabPanel("Diskretes Dynamisches Modell",
-           tags$script("function show_hide(identifier) {
-                    var x = document.getElementById(identifier);
-                    if (x.style.display === 'none') {
-                      x.style.display = 'block';
-                    } else {
-                      x.style.display = 'none';
-                    }
-                  }"),
+  tabPanel("diskret dynamisch deterministisch - Lachse",
            fluidRow(
              column(4,
                     sliderInput(shiny::NS(id, "laich"), "Laicherfolg (E)",
@@ -34,17 +26,15 @@ lachsUI <- function(id){
                column(8, plotOutput(NS(id, "population")))),
              fluidRow(
                column(1, actionButton(NS(id, "function_button"), "Show / Hide Function Code",
-                                      onClick="show_hide('code_function')"))),
+                                      onClick="show_hide('lachs_function')"))),
              fluidRow(
-               column(12, div(label=NS(id, "code_box"), id="code_function",
-                              style.display="none",
+               column(12, div(label=NS(id, "lachs_fun_box"), id="lachs_function",
                               verbatimTextOutput(NS(id, "da_function_code"))))),
              fluidRow(
-               column(1, actionButton(NS(id, "model_button"), "Show / Hide Function Code",
-                                      onClick="show_hide('code_model')"))),
+               column(1, actionButton(NS(id, "model_button"), "Show / Hide Model Code",
+                                      onClick="show_hide('lachs_model')"))),
              fluidRow(
-               column(12, div(label=NS(id, "code_box"), id="code_model",
-                              style.display="none",
+               column(12, div(label=NS(id, "lachs_model_box"), id="lachs_model",
                               verbatimTextOutput(NS(id, "da_model_code")))))
     )
 }
