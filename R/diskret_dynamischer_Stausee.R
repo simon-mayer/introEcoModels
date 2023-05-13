@@ -53,19 +53,12 @@ stauseeUI <- function(id){
 
 stauseeServer <- function(id){
   moduleServer(id, function(input, output, session){
-    observe({
-      print(input$eintrag)
-      print(input$parameter)
-      print(1:input$schritte)
-      print(input$start)
-      })
     pop <- reactive({
       sim <- modell(input = rep(input$eintrag, input$schritte), s0 = input$start,
              k = input$parameter, schritte = input$schritte)
       sim$Zeit <- 1:input$schritte
       sim
     })
-    observe({print(pop())})
     output$speicher <- renderPlot({
       ggplot2::ggplot(data = pop()) +
         ggplot2::geom_line(ggplot2::aes(x=Zeit, y=Speicher), color = "blue") +
