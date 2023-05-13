@@ -34,14 +34,6 @@ Nt <- function(r, K, N_k, t) { # Parameter
 
 logisticUI <- function(id){
   tabPanel("Logistisches Modell",
-    tags$script("function show_hide(identifier) {
-                    var x = document.getElementById(identifier);
-                    if (x.style.display === 'none') {
-                      x.style.display = 'block';
-                    } else {
-                      x.style.display = 'none';
-                    }
-                  }"),
     fluidRow(
        column(6,
           sliderInput(shiny::NS(id, "growth_rate"), "Wachstumsrate (r)",
@@ -57,10 +49,9 @@ logisticUI <- function(id){
       column(10, plotOutput(NS(id, "population")))),
     fluidRow(
       column(1, actionButton(NS(id, "code_button"), "Show / Hide Function Code",
-                            onClick="show_hide('code_function')"))),
+                            onClick="show_hide('logistic_function')"))),
     fluidRow(
-      column(12, div(label=NS(id, "code_box"), id="code_function",
-                            style.display="none",
+      column(12, div(label=NS(id, "code_box"), id="logistic_function",
                             verbatimTextOutput(NS(id, "da_code")))))
     )
 }

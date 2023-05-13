@@ -27,3 +27,6 @@ use_package("pkgload")
 #10.05
 install.packages("shinyjs")
 usethis::use_package("shinyjs")
+
+#13.05
+usethis::use_package("htmltools")
