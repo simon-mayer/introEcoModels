@@ -32,7 +32,28 @@ modell <- function(s0, input, k, schritte){ # Name der Funktion und ihre Argumen
 
 }
 
+stausee_text <- "
+modell <- function(s0, input, k, schritte){ # Name der Funktion und ihre Argumente
 
+  # Vektoren vorbereiten
+  speicher <- rep(NA, schritte)
+  abfluss <- rep(NA, schritte)
+
+  # Abfluss und Speicher zum Zeitpunkt 1 (hängen von s0 ab)
+  abfluss[1] <- k * (s0 + input[1])
+  speicher[1] <- s0 + input[1] - abfluss[1]
+
+  # Abfluss und Speicher ab Zeitpunkt 2 (hängen von vorherigen Zeitpunkten ab)
+  for (i in 2:schritte) {
+    abfluss[i] <- k * (speicher[i-1] + input[i])
+    speicher[i] <- speicher[i-1] + input[i] - abfluss[i]
+  }
+
+  # Ergebnisse zu einem data.frame
+  return(data.frame(Speicher = speicher, Abfluss = abfluss))
+
+}
+"
 
 
 
@@ -50,6 +71,13 @@ stauseeUI <- function(id){
         sliderInput(shiny::NS(id, "schritte"), "Endzeitpunkt (schrittte)",
           value = 100, min = 10, max = 1000, step = 10 ))),
     fluidRow(column(12, plotOutput(NS(id, "speicher")))),
+    fluidRow(
+      column(1, actionButton(NS(id, "stausee_code_button"), "Show / Hide Function Code",
+                             onClick="show_hide('stausee_function')"))),
+    fluidRow(
+      column(12, div(label=NS(id, "code_box"), id="stausee_function",
+                     verbatimTextOutput(NS(id, "stausee_code")))))
+    ,
     fluidRow(column(12, plotOutput(NS(id, "speicher_var")))),
     fluidRow(column(12, plotOutput(NS(id, "daten_vs_rand_par")))),
     fluidRow(column(12, plotOutput(NS(id, "daten_vs_cal_par")))),
@@ -73,6 +101,8 @@ stauseeServer <- function(id){
   # Modell anwenden, s0 und k sind erstmal wie oben
   sim_var <- modell(input = niederschlag, s0=10, k=0.2, schritte=length(niederschlag))
   sim_var$Zeit <- tage[start:ende]
+
+
 
   # kalibrierung
   Abfluss = data.frame(Daten = hydrodat$Q[start:ende],
@@ -120,7 +150,7 @@ stauseeServer <- function(id){
 
 
   # 25 % Reduktion im Niederschlag
-  niederschlag_less <- dat$P[start:ende]*0.75
+  niederschlag_less <- hydrodat$P[start:ende]*0.75
 
 
   # langsameres Ablaufen durch Veränderung am See
@@ -147,6 +177,7 @@ stauseeServer <- function(id){
         ggplot2::geom_line(ggplot2::aes(x=Zeit, y=Speicher), color = "blue") +
         ggplot2::geom_line(ggplot2::aes(x=Zeit, y=Abfluss), color = "red")
     })
+    output$stausee_code <- renderText({stausee_text})
     output$speicher_var <- renderPlot({
       ggplot2::ggplot(data = sim_var) +
         ggplot2::geom_line(ggplot2::aes(x=Zeit, y=Speicher), color = "blue") +

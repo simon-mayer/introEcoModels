@@ -12,13 +12,17 @@ myApp <- function(...){
     shiny::navlistPanel(
       lachsUI("lachs"),
       stauseeUI("stausee"),
-      logisticUI("logistic"))
+      ebolaUI("ebola_diagrams"),
+      logisticUI("logistic"),
+      lotkaVolterraUI("lotkaVolterra"))
 )
 
   server <- function(input, output, session){
     logisticServer("logistic")
     stauseeServer("stausee")
+    ebolaServer("ebola_diagrams")
     lachsServer("lachs")
+    lotkaVolterraServer("lotkaVolterra")
   }
 
   shinyApp(ui, server)

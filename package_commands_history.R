@@ -33,4 +33,14 @@ usethis::use_package("htmltools")
 getwd()
 load(paste0(getwd(), "/../../Programming_Lisa/hydrodata.Rdata"))
 usethis::use_data(hydrodat)
+rsconnect::deployApp()
 
+#17.05
+ebola <- read.csv("../../Programming_Lisa/ebola.csv")
+head(ebola)
+usethis::use_data(ebola)
+
+#19.05
+usethis::use_package("deSolve")
+usethis::use_package("tidyr")
+usethis::use_package("dplyr")
