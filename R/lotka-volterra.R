@@ -35,21 +35,6 @@ LotVmod <- function (Time, State, Pars) {
   })
 }
 
-lotka_function_text<-
-"
-LotVmod <- function (Time, State, Pars) {
-  # with ermöglicht einem Code-Fragment Zugriff auf Variablen,
-  # die in einer Liste oder einem Dataframe gespeichert sind
-  # (hier B, R in State, a, b, r, m in Pars)
-  with(as.list(c(State, Pars)), {
-    dB = r*B - a*B*R
-    dR = -m*R + b*a*B*R
-    # gibt Veränderungen der Populationen zurück
-    return(list(c(dB, dR)))
-  })
-}
-"
-
 
 lotkaVolterraUI <- function(id){
   tabPanel("Lotka Volterra",
@@ -109,10 +94,10 @@ lotkaVolterraUI <- function(id){
 
            fluidRow(
              column(1, actionButton(NS(id, "code_button"), "Show / Hide Function Code",
-                                    onClick="show_hide('logistic_function')"))),
+                                    onClick="show_hide('lotka_function')"))),
            fluidRow(
-             column(12, div(label=NS(id, "code_box"), id="logistic_function",
-                            verbatimTextOutput(NS(id, "da_code")))))
+             column(12, div(label=NS(id, "lotka_function"), id="lotka_function",
+                            verbatimTextOutput(NS(id, "lotka_function_text")))))
   )
 }
 
@@ -178,6 +163,21 @@ lotkaVolterraServer <-  function(id){
         ggplot2::scale_colour_manual(values = c("blue", "red"))
 
     })
+    lotka_function_text<-
+      "
+LotVmod <- function (Time, State, Pars) {
+  # with ermöglicht einem Code-Fragment Zugriff auf Variablen,
+  # die in einer Liste oder einem Dataframe gespeichert sind
+  # (hier B, R in State, a, b, r, m in Pars)
+  with(as.list(c(State, Pars)), {
+    dB = r*B - a*B*R
+    dR = -m*R + b*a*B*R
+    # gibt Veränderungen der Populationen zurück
+    return(list(c(dB, dR)))
+  })
+}
+"
+    output$lotka_function_text <- renderText(lotka_function_text);
 
   })
 }

@@ -44,3 +44,8 @@ usethis::use_data(ebola)
 usethis::use_package("deSolve")
 usethis::use_package("tidyr")
 usethis::use_package("dplyr")
+
+#25.05
+usethis::use_package("purrr")
+usethis::use_package("tibble")
+usethis::use_package("CircStats")

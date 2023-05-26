@@ -15,13 +15,16 @@ Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
 Imports: 
+    CircStats,
     deSolve,
     dplyr,
     ggplot2,
     htmltools,
     pkgload,
+    purrr,
     shiny,
     shinyjs,
+    tibble,
     tidyr
 Depends: 
     R (>= 2.10)

@@ -14,7 +14,10 @@ myApp <- function(...){
       stauseeUI("stausee"),
       ebolaUI("ebola_diagrams"),
       logisticUI("logistic"),
-      lotkaVolterraUI("lotkaVolterra"))
+      lotkaVolterraUI("lotkaVolterra"),
+      diffusion1dUI("diffusion1d"),
+      diffusion2dUI("diffusion2d"),
+      random1dUI("random1d"))
 )
 
   server <- function(input, output, session){
@@ -23,6 +26,9 @@ myApp <- function(...){
     ebolaServer("ebola_diagrams")
     lachsServer("lachs")
     lotkaVolterraServer("lotkaVolterra")
+    diffusion1dServer("diffusion1d")
+    diffusion2dServer("diffusion2d")
+    random1dServer("random1d")
   }
 
   shinyApp(ui, server)
