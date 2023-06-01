@@ -20,7 +20,8 @@ myApp <- function(...){
       diffusion2dUI("diffusion2d"),
       random1dUI("random1d"),
       random2dUI("random2d"),
-      conwayUI("conway"))
+      conwayUI("conway"),
+      salmoUI("salmo"))
 )
 
   server <- function(input, output, session){
@@ -35,6 +36,7 @@ myApp <- function(...){
     random1dServer("random1d")
     random2dServer("random2d")
     conwayServer("conway")
+    salmoServer("salmo")
   }
 
   shinyApp(ui, server)
