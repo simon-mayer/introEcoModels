@@ -7,7 +7,7 @@
 #' @returns  Integer  +1 (zu p * 100 %) oder −1 (zu (1−p) \* 100 %
 random1d = function(p) {
   # wenn Bild, dann nach oben (+1), ansonsten nach unten (-1)
-  ifelse(test = rbernoulli(n = 1, p = p), yes = 1, no = -1)
+  ifelse(test = purrr::rbernoulli(n = 1, p = p), yes = 1, no = -1)
 }
 
 #'Simuliere einen kontinuierlichen 1d - Schritt
@@ -25,6 +25,7 @@ rnorm(n = 1, mean = mean, sd = sd)
 
 random1dUI <- function(id){
   tabPanel("Random Walk 1D",
+           fluidRow(12, h2("Random Walk aus Bernoulli-Verteilung")),
            fluidRow(
              column(4,
                     sliderInput(shiny::NS(id, "prob"), "Wahrscheinlichkeit (p)",
@@ -43,6 +44,7 @@ random1dUI <- function(id){
            fluidRow(
              column(12, div(label=NS(id, "bernoulli_box"), id="bernoulli_function",
                             verbatimTextOutput(NS(id, "bernoulli_function_text"))))),
+           fluidRow(12, h2("Random Walk aus Normalverteilung")),
            fluidRow(
              column(4,
                     sliderInput(shiny::NS(id, "mean"), "Erwartungswert (mean)",
@@ -135,7 +137,7 @@ random1d_c = function(mean, sd) {
       rnorm(n = 1, mean = mean, sd = sd)
 }
 "
-output$oneD_function_text <- renderText({oneD_function_text})
+output$oneD_walk_function_text <- renderText({oneD_function_text})
 
 
   })

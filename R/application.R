@@ -14,6 +14,7 @@ myApp <- function(...){
       stauseeUI("stausee"),
       ebolaUI("ebola_diagrams"),
       logisticUI("logistic"),
+      stadienModelleUI("stadienModelle"),
       lotkaVolterraUI("lotkaVolterra"),
       diffusion1dUI("diffusion1d"),
       diffusion2dUI("diffusion2d"),
@@ -27,6 +28,7 @@ myApp <- function(...){
     stauseeServer("stausee")
     ebolaServer("ebola_diagrams")
     lachsServer("lachs")
+    stadienModelleServer("stadienModelle")
     lotkaVolterraServer("lotkaVolterra")
     diffusion1dServer("diffusion1d")
     diffusion2dServer("diffusion2d")
