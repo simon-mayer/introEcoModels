@@ -22,7 +22,7 @@ lachsUI <- function(id){
                                 value = 0.57, min = 0.3, max = 1,1, step = 0.01 ),
                     sliderInput(shiny::NS(id, "end"), "Endzeitpunkt (t)",
                                 value = 30, min = 10, max = 100, step = 1 ))),
-             fluidRow(5,
+             fluidRow(
                column(8, plotOutput(NS(id, "population")))),
              fluidRow(
                column(1, actionButton(NS(id, "function_button"), "Show / Hide Function Code",
@@ -86,8 +86,11 @@ lachsServer <- function(id){
       data.frame(Zeit=1:input$end, Population=S)
     })
     output$population <- renderPlot({
-      ggplot2::ggplot(data = pop(), ggplot2::aes(x=Zeit, y=Population)) +
-        ggplot2::geom_line()
+      ggplot2::ggplot() +
+        ggplot2::geom_line(data = pop(), ggplot2::aes(x=Zeit, y=Population)) +
+        ggplot2::geom_point(data = pop()[1:10,], ggplot2::aes(x = Zeit, y=Population), colour="blue")
+
+
     })
     output$da_function_code <- renderText({function_text})
     output$da_model_code <- renderText({model_text})
