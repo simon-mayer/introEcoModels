@@ -22,19 +22,21 @@ diffusion1dUI <- function(id){
   tabPanel("Diffusion 1D",
            fluidRow(
              column(6, sliderInput(shiny::NS(id, "start"), "Anzahl Partikel zu Beginn",
-                                value = 100, min = 10, max = 1000, step = 10)),
+                                value = 100, min = 10, max = 500, step = 10)),
              column(6, sliderInput(shiny::NS(id, "position"),
                                    "relative Position Partikel zu Beginn",
                                 value = 0.5, min = 0.01, max = 1, step = 0.01 ))),
            fluidRow(
              column(4, sliderInput(shiny::NS(id, "extension"), "Ausdehnung (length(x))",
-                                value = 100, min = 10, max = 1000, step = 10 )),
+                                value = 100, min = 10, max = 300, step = 10 )),
              column(4, sliderInput(shiny::NS(id, "end"), "Endzeitpunkt (t)",
-                                value = 200, min = 100, max = 10000, step = 100)),
+                                value = 200, min = 100, max = 2000, step = 100)),
              column(4, sliderInput(shiny::NS(id, "delta"), "Diffusionskonstante (delta)",
                                 value = 0.2, min = 0.01, max = 1, step = 0.01))),
+           fluidRow(column(4), column(6, h5("zum Startzeitpunkt"))),
            fluidRow(
              column(12, plotOutput(NS(id, "diffusion1d_start")))),
+           fluidRow(column(4), column(6, h5(textOutput(NS(id, "endpoint"))))),
            fluidRow(
              column(12, plotOutput(NS(id, "diffusion1d")))),
            fluidRow(
@@ -48,15 +50,17 @@ diffusion1dUI <- function(id){
 
 diffusion1dServer <- function(id){
   moduleServer(id, function(input, output, session){
+    output$endpoint <- renderText({paste0("zum Endzeitpunkt(t = ", input$end, ")")})
     distrib <- reactive({
       x <- rep(0, input$extension)
       x[as.integer(input$extension*input$position)] <- input$start
       for (i in 1:input$end){
-        x = sapply(1:length(x), "diffuse", x = x, delta = input$delta)
+        y = sapply(1:length(x), "diffuse", x = x, delta = input$delta)
+        x <- y
       }
+
       data.frame(concentration=x, cells=1:input$extension)
     })
-
     output$diffusion1d_start <- renderPlot({
       x <- rep(0, input$extension)
       x[as.integer(input$extension*input$position)] <- input$start
