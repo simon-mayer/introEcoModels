@@ -12,7 +12,6 @@ myApp <- function(...){
     shiny::navlistPanel(
       lachsUI("lachs"),
       stauseeUI("stausee"),
-      ebolaUI("ebola_diagrams"),
       logisticUI("logistic"),
       stadienModelleUI("stadienModelle"),
       lotkaVolterraUI("lotkaVolterra"),
@@ -27,7 +26,6 @@ myApp <- function(...){
   server <- function(input, output, session){
     logisticServer("logistic")
     stauseeServer("stausee")
-    ebolaServer("ebola_diagrams")
     lachsServer("lachs")
     stadienModelleServer("stadienModelle")
     lotkaVolterraServer("lotkaVolterra")
