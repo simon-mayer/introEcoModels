@@ -1,56 +1,62 @@
 stadienModelleUI <- function(id){
   tabPanel("Stadienmodelle",
            fluidRow(
+             column(6, h3("Lebenstafel"))
+           ),
+           fluidRow(
+             column(6, "1 = Rossete, 2 = Blütenstand, 3 = Samen")
+           ),
+           fluidRow(
              column(2,
-                    numericInput(NS(id, "mat00"), "", min=0.0, max=20,
+                    numericInput(NS(id, "mat11"), "1ₜ→1ₜ₊₁", min=0.0, max=20,
                                  step=0.01, value=0.95)),
              column(2,
-                    numericInput(NS(id, "mat01"), "", min=0.0, max=20,
+                    numericInput(NS(id, "mat12"), "2ₜ→1ₜ₊₁", min=0.0, max=20,
                                  step=0.01, value=0.21)),
              column(2,
-                    numericInput(NS(id, "mat02"), "", min=0.0, max=20,
+                    numericInput(NS(id, "mat13"), "3ₜ→1ₜ₊₁", min=0.0, max=20,
                                  step=0.01, value=0.01)),
              column(1),
              column(2,
-                    numericInput(NS(id, "x0"), "", min=0.0, max=20,
+                    numericInput(NS(id, "x1"), "1₁", min=0.0, max=20,
                                  step=0.01, value=1.0)),
              column(1),
            column(2,
-                  verbatimTextOutput(NS(id, "v0")),
+                  verbatimTextOutput(NS(id, "v1")),
                   )),
            fluidRow(
              column(2,
-                    numericInput(NS(id, "mat10"), "", min=0.0, max=20,
+                    numericInput(NS(id, "mat21"), "1ₜ→2ₜ₊₁", min=0.0, max=20,
                                  step=0.01, value=0.33)),
              column(2,
-                    numericInput(NS(id, "mat11"), "", min=0.0, max=20,
+                    numericInput(NS(id, "mat22"), "2ₜ→2ₜ₊₁", min=0.0, max=20,
                                  step=0.01, value=0.0)),
              column(2,
-                    numericInput(NS(id, "mat12"), "", min=0.0, max=20,
+                    numericInput(NS(id, "mat23"), "3ₜ→2ₜ₊₁", min=0.0, max=20,
                                  step=0.01, value=0.0)),
             column(1),
             column(2,
-                  numericInput(NS(id, "x1"), "", min=0.0, max=20,
+                  numericInput(NS(id, "x2"), "2₁", min=0.0, max=20,
                                 step=0.01, value=10)),
             column(1),
-            column(2, verbatimTextOutput(NS(id, "v1")),
+            column(2, verbatimTextOutput(NS(id, "v2")),
                     )),
            fluidRow(
               column(2,
-                    numericInput(NS(id, "mat20"), "", min=0.0, max=20,
+                    numericInput(NS(id, "mat31"), "1ₜ→3ₜ₊₁", min=0.0, max=20,
                                  step=0.01, value=0.0)),
               column(2,
-                    numericInput(NS(id, "mat21"), "", min=0.0, max=20,
+                    numericInput(NS(id, "mat32"), "2ₜ→3ₜ₊₁", min=0.0, max=20,
                                  step=0.01, value=10.0)),
               column(2,
-                    numericInput(NS(id, "mat22"), "", min=0.0, max=20,
+                    numericInput(NS(id, "mat33"), "3ₜ→3ₜ₊₁", min=0.0, max=20,
                                  step=0.01, value=0.25)),
               column(1),
               column(2,
-                           numericInput(NS(id, "x2"), "", min=0.0, max=20,
+                           numericInput(NS(id, "x3"), "3₁", min=0.0, max=20,
                                         step=0.01, value=50)),
                     column(1),
-                    column(2, verbatimTextOutput(NS(id, "v2")),
+                    column(2, verbatimTextOutput(NS(id, "v3")),
                     )),
            fluidRow(
              column(4,
@@ -73,19 +79,19 @@ stadienModelleServer <- function(id){
 
     M <- reactive({
 
-        mat <- matrix(data = c(input$mat00,      input$mat01,   input$mat02,
-                       input$mat10,      input$mat11,   input$mat12,
-                       input$mat20,      input$mat21,   input$mat22),
+        mat <- matrix(data = c(input$mat11,      input$mat12,   input$mat13,
+                       input$mat21,      input$mat22,   input$mat23,
+                       input$mat31,      input$mat32,   input$mat33),
                        nrow = 3, ncol = 3, byrow=TRUE)
         colnames(mat) <- rownames(mat) <- stages
         mat})
 
-    population_init <- reactive({c(rosette = input$x0, shoot = input$x1, seed = input$x2)})
+    population_init <- reactive({c(rosette = input$x1, shoot = input$x2, seed = input$x3)})
 
     one_time_vector <- reactive({M() %*% population_init()})
-    output$v0 <- renderText({one_time_vector()[1]})
-    output$v1 <- renderText({one_time_vector()[2]})
-    output$v2 <- renderText({one_time_vector()[3]})
+    output$v1 <- renderText({paste0("1₂=", one_time_vector()[1])})
+    output$v2 <- renderText({paste0("2₂=", one_time_vector()[2])})
+    output$v3 <- renderText({paste0("3₂=", one_time_vector()[3])})
 
     output$plot <- renderPlot({
         Timeseries <- matrix(NA, nrow = input$n_years, ncol = 3) # leere Matrix erstellen
