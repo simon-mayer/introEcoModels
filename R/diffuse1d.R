@@ -22,15 +22,15 @@ diffusion1dUI <- function(id){
   tabPanel("Diffusion 1D",
            fluidRow(
              column(6, sliderInput(shiny::NS(id, "start"), "Anzahl Partikel zu Beginn",
-                                value = 100, min = 10, max = 500, step = 10)),
+                                value = 100, min = 10, max = 300, step = 10)),
              column(6, sliderInput(shiny::NS(id, "position"),
                                    "relative Position Partikel zu Beginn",
                                 value = 0.5, min = 0.01, max = 1, step = 0.01 ))),
            fluidRow(
              column(4, sliderInput(shiny::NS(id, "extension"), "Ausdehnung (length(x))",
-                                value = 100, min = 10, max = 300, step = 10 )),
+                                value = 100, min = 10, max = 200, step = 10 )),
              column(4, sliderInput(shiny::NS(id, "end"), "Endzeitpunkt (t)",
-                                value = 200, min = 100, max = 2000, step = 100)),
+                                value = 200, min = 100, max = 800, step = 50)),
              column(4, sliderInput(shiny::NS(id, "delta"), "Diffusionskonstante (delta)",
                                 value = 0.2, min = 0.01, max = 1, step = 0.01))),
            fluidRow(column(4), column(6, h5("zum Startzeitpunkt"))),

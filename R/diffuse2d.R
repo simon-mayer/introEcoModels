@@ -35,9 +35,9 @@ diffusion2dUI <- function(id){
   tabPanel("Diffusion 2D",
           fluidRow(
              column(6, sliderInput(shiny::NS(id, "start"), "Anzahl Partikel zu Beginn",
-                                   value = 100, min = 10, max = 1000, step = 10)),
+                                   value = 50, min = 10, max = 200, step = 10)),
              column(6, sliderInput(shiny::NS(id, "end"), "Endzeitpunkt (t)",
-                                   value = 200, min = 100, max = 10000, step = 100))),
+                                   value = 100, min = 100, max = 600, step = 50))),
 
           fluidRow(
              column(6, sliderInput(shiny::NS(id, "positionX"),
@@ -48,7 +48,7 @@ diffusion2dUI <- function(id){
                                    value = 0.5, min = 0.01, max = 1, step = 0.01 ))),
            fluidRow(
              column(6, sliderInput(shiny::NS(id, "extension"), "Ausdehnung  (ncol(A))",
-                                   value = 100, min = 10, max = 1000, step = 10 )),
+                                   value = 50, min = 10, max = 100, step = 10 )),
              column(6, sliderInput(shiny::NS(id, "delta"), "Diffusionskonstante (delta)",
                                    value = 0.05, min = 0.01, max = 1, step = 0.01))),
            fluidRow(
@@ -77,9 +77,9 @@ diffusion2dServer <- function(id){
         A = diffuse2D(A, delta = input$delta)
       }
       ad <- as.data.frame(A)
-      names(ad) <- 1:100
+      names(ad) <- 1:input$extension
       col_names <- names(ad)
-      ad$y_coord <- 1:100
+      ad$y_coord <- 1:input$extension
       along <- tidyr::pivot_longer(ad, cols=col_names, names_to="x_coord", values_to="concentration")
       along$x_coord <- as.integer(along$x_coord)
       along
@@ -92,18 +92,20 @@ diffusion2dServer <- function(id){
       A_start[positionY, positionX] = input$start # Menge in einer Zelle
 
       ad_start <- as.data.frame(A_start)
-      names(ad_start) <- 1:100
+      names(ad_start) <- 1:input$extension
       col_names <- names(ad_start)
-      ad_start$y_coord <- 1:100
+      ad_start$y_coord <- 1:input$extension
       along_start <- tidyr::pivot_longer(ad_start, cols=col_names, names_to="x_coord", values_to="concentration")
       along_start$x_coord <- as.integer(along_start$x_coord)
       ggplot2::ggplot(data = along_start) +
-        ggplot2::geom_raster(ggplot2::aes(x=x_coord, y=y_coord, fill=concentration))
+        ggplot2::geom_raster(ggplot2::aes(x=x_coord, y=y_coord, fill=concentration)) +
+        ggplot2::scale_colour_viridis_c(aesthetics="fill")
     })
 
     output$diffusion2d <- renderPlot({
       ggplot2::ggplot(data = distrib()) +
-        ggplot2::geom_raster(ggplot2::aes(x=x_coord, y=y_coord, fill=concentration))
+        ggplot2::geom_raster(ggplot2::aes(x=x_coord, y=y_coord, fill=concentration)) +
+        ggplot2::scale_colour_viridis_c(aesthetics ="fill")
     })
 
     diffusion2d_function_text <- "

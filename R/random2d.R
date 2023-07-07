@@ -39,8 +39,8 @@ random2dUI <- function(id){
                     sliderInput(shiny::NS(id, "end"), "Endzeitpunkt (t)",
                                 value = 100, min = 10, max = 1000, step = 10)),
              column(6,
-                    sliderInput(shiny::NS(id, "seed"), "Zufallsexperiment Nr",
-                                value = 100, min = 1, max = 200, step = 1))),
+                    numericInput(shiny::NS(id, "seed"), "Zufallsexperiment Nr",
+                                 value = 1, min=1, max=.Machine$integer.max))),
            fluidRow(
              column(6,
                     sliderInput(shiny::NS(id, "speed1"), "erwartete Schrittweite (speed) rot",

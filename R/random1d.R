@@ -32,10 +32,10 @@ random1dUI <- function(id){
                                 value = 0.5, min = 0.0, max = 1, step = 0.05 )),
              column(4,
                     sliderInput(shiny::NS(id, "end"), "Endzeitpunkt (t)",
-                                value = 100, min = 10, max = 1000, step = 10)),
+                                value = 100, min = 10, max = 500, step = 10)),
              column(4,
-                    sliderInput(shiny::NS(id, "seed"), "Zufallsexperiment Nr",
-                                value = 100, min = 1, max = 200, step = 1))
+                    numericInput(shiny::NS(id, "seed"), "Zufallsexperiment Nr",
+                                value = 1, min=1, max=.Machine$integer.max))
              ),
            fluidRow(
              column(12, plotOutput(NS(id, "bernoulli")))),
