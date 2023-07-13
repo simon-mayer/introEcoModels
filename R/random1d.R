@@ -25,14 +25,14 @@ rnorm(n = 1, mean = mean, sd = sd)
 
 random1dUI <- function(id){
   tabPanel("Random Walk 1D",
-           fluidRow(12, h2("Random Walk aus Bernoulli-Verteilung")),
+           fluidRow(column(12, h2("Random Walk aus Bernoulli-Verteilung"))),
            fluidRow(
              column(4,
                     sliderInput(shiny::NS(id, "prob"), "Wahrscheinlichkeit (p)",
                                 value = 0.5, min = 0.0, max = 1, step = 0.05 )),
              column(4,
                     sliderInput(shiny::NS(id, "end"), "Endzeitpunkt (t)",
-                                value = 100, min = 10, max = 500, step = 10)),
+                                value = 100, min = 10, max = 300, step = 10)),
              column(4,
                     numericInput(shiny::NS(id, "seed"), "Zufallsexperiment Nr",
                                 value = 1, min=1, max=.Machine$integer.max))
@@ -44,23 +44,21 @@ random1dUI <- function(id){
            fluidRow(
              column(12, div(label=NS(id, "bernoulli_box"), id="bernoulli_function",
                             verbatimTextOutput(NS(id, "bernoulli_function_text"))))),
-           fluidRow(12, h2("Random Walk aus Normalverteilung")),
+           fluidRow(
+             column(12, h2("Random Walk aus Normalverteilung"))),
            fluidRow(
              column(4,
                     sliderInput(shiny::NS(id, "mean"), "Erwartungswert (mean)",
                                 value = 0, min = -10, max = 10, step = 0.5 )),
              column(4,
                     sliderInput(shiny::NS(id, "end_walk"), "Endzeitpunkt (t)",
-                                value = 100, min = 10, max = 1000, step = 10)),
-              column(4, sliderInput(shiny::NS(id, "participants"), "Anzahl Simulationen",
-                                    value = 1, min = 1, max = 20, step = 1))),
+                                value = 100, min = 5, max = 300, step = 5)),
            fluidRow(
              column(6,
-                    sliderInput(shiny::NS(id, "sd"), "Standardabweichung Nr",
+                    sliderInput(shiny::NS(id, "sd"), "Standardabweichung",
                                 value = 2, min = 0, max = 10, step = 0.5)),
-             column(6,
-                    sliderInput(shiny::NS(id, "seed_walk"), "Zufallsexperiment Nr",
-                                value = 100, min = 1, max = 200, step = 1))),
+             column(6, sliderInput(shiny::NS(id, "participants"), "Anzahl Simulationen",
+                                   value = 1, min = 1, max = 10, step = 1)))
            fluidRow(
              column(12, plotOutput(NS(id, "oneD_walk")))),
            fluidRow(
@@ -104,7 +102,7 @@ random1d = function(p) {
 
     output$oneD_walk <- renderPlot({
 
-      set.seed(input$seed_walk)
+      set.seed(121212)
 
       df <- data.frame(y=numeric(0), Zeit=integer(0), participant=character(0))
       n = input$end_walk
@@ -137,7 +135,7 @@ random1d_c = function(mean, sd) {
       rnorm(n = 1, mean = mean, sd = sd)
 }
 "
-output$oneD_walk_function_text <- renderText({oneD_function_text})
+output$oneD_walk_function_text <- renderText({oneD_walk_function_text})
 
 
   })
