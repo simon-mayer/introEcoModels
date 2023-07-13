@@ -49,3 +49,6 @@ usethis::use_package("dplyr")
 usethis::use_package("purrr")
 usethis::use_package("tibble")
 usethis::use_package("CircStats")
+
+#13.07
+install.packages("devtools")

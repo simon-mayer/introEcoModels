@@ -58,7 +58,7 @@ random1dUI <- function(id){
                     sliderInput(shiny::NS(id, "sd"), "Standardabweichung",
                                 value = 2, min = 0, max = 10, step = 0.5)),
              column(6, sliderInput(shiny::NS(id, "participants"), "Anzahl Simulationen",
-                                   value = 1, min = 1, max = 10, step = 1)))
+                                   value = 1, min = 1, max = 10, step = 1))),
            fluidRow(
              column(12, plotOutput(NS(id, "oneD_walk")))),
            fluidRow(
@@ -66,8 +66,8 @@ random1dUI <- function(id){
                                     onClick="show_hide('oneD_walk_function')"))),
            fluidRow(
              column(12, div(label=NS(id, "oneD_walk_box"), id="oneD_walk_function",
-                            verbatimTextOutput(NS(id, "oneD_walk_function_text")))))
-  )
+                            verbatimTextOutput(NS(id, "oneD_walk_function_text"))))))
+           )
 }
 
 

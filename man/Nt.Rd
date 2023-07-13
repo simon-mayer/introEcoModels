@@ -4,20 +4,23 @@
 \alias{Nt}
 \title{Modellfunktion für diskretes logistisches Wachstum}
 \usage{
-Nt(r, K, N, t)
+Nt(r, K, N_k, t)
 }
 \arguments{
-\item{r}{Zahl zwischen -0.1 und 4, gibt Wachstumsrate an}
+\item{r}{Zahl zwischen -0.1 und 4, gibt Wachstumsrate an
+(Verhältnis zusätzliche Individuen zum nächsten Zeitpunkt zu aktuellen)}
 
 \item{K}{Zahl, gibt Carrying Capacity der Umwelt an ~ max Population}
 
-\item{N}{Array von Zahlen, hält am Index 1 die Populationsgröße zur Zeit 1}
+\item{N_k}{Zahl zwischen 0 und 1, relative Anfangspopulation
+im Verhältnis zur Kapazität an}
 
 \item{t}{Zahl Endzeitpunkt der Simulation}
 }
 \value{
-Vektor von Zahlen, hält am Index t Populationsgröße zur Zeit t
+Vektor von Zahlen, hält am Index i Populationsgröße zur Zeit i
 }
 \description{
-Modellfunktion für diskretes logistisches Wachstum
+\code{Nt(r, K, N_k, t)} erstellt einen Vektor der Populationsgröße zum
+Zeitpunkt i am Index i.
 }
