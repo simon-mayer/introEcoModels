@@ -59,3 +59,7 @@ usethis::use_package("dplyr")
 usethis::use_package("purrr")
 usethis::use_package("tibble")
 usethis::use_package("CircStats")
+
+#05.10
+rsconnect::setAccountInfo(name='simon-mayer', token='7D50025DB00961E0D25C868B6DA76821', secret='4iea80UtYmNBFokqWTu0mCzWR5ULJqmmo8olkD43')
+rsconnect::deployApp()
