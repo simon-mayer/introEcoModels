@@ -52,3 +52,10 @@ usethis::use_package("CircStats")
 
 #13.07
 install.packages("devtools")
+
+usethis::use_package("deSolve")
+usethis::use_package("tidyr")
+usethis::use_package("dplyr")
+usethis::use_package("purrr")
+usethis::use_package("tibble")
+usethis::use_package("CircStats")

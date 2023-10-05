@@ -54,11 +54,13 @@ random1dUI <- function(id){
                     sliderInput(shiny::NS(id, "end_walk"), "Endzeitpunkt (t)",
                                 value = 100, min = 5, max = 300, step = 5)),
            fluidRow(
-             column(6,
+             column(4,
                     sliderInput(shiny::NS(id, "sd"), "Standardabweichung",
                                 value = 2, min = 0, max = 10, step = 0.5)),
-             column(6, sliderInput(shiny::NS(id, "participants"), "Anzahl Simulationen",
-                                   value = 1, min = 1, max = 10, step = 1))),
+             column(4, sliderInput(shiny::NS(id, "participants"), "Anzahl Simulationen",
+                                   value = 1, min = 1, max = 10, step = 1))
+
+            ),
            fluidRow(
              column(12, plotOutput(NS(id, "oneD_walk")))),
            fluidRow(

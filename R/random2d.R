@@ -37,26 +37,19 @@ random2dUI <- function(id){
            fluidRow(
              column(6,
                     sliderInput(shiny::NS(id, "end"), "Endzeitpunkt (t)",
-                                value = 100, min = 10, max = 1000, step = 10)),
+                                value = 100, min = 10, max = 300, step = 10)),
              column(6,
-                    numericInput(shiny::NS(id, "seed"), "Zufallsexperiment Nr",
-                                 value = 1, min=1, max=.Machine$integer.max))),
+                    numericInput(shiny::NS(id, "participants"), "Anzahl Simulationen",
+                                 value = 1, min=1, max=10))),
            fluidRow(
              column(6,
-                    sliderInput(shiny::NS(id, "speed1"), "erwartete Schrittweite (speed) rot",
+                    sliderInput(shiny::NS(id, "speed"), "erwartete Schrittweite (speed)",
                                 value = 0.5, min = 0.0, max = 1, step = 0.05 )),
              column(6,
-                    sliderInput(shiny::NS(id, "rho1"), "Wahrsch. des 'Beharrens' (rho) rot",
+                    sliderInput(shiny::NS(id, "rho"), "Richtungstendenz (rho)",
                          value = 0, min = 0, max = 1, step = 0.01))),
            fluidRow(
              column(12, plotOutput(NS(id, "twoD_walk")))),
-           fluidRow(
-             column(6,
-                    sliderInput(shiny::NS(id, "speed2"), "erwartete Schrittweite (speed) blau",
-                                value = 0.5, min = 0.0, max = 1, step = 0.05 )),
-             column(6,
-                    sliderInput(shiny::NS(id, "rho2"), "Wahrsch. des 'Beharrens' (rho) blau",
-                                value = 0, min = 0, max = 1, step = 0.01))),
            fluidRow(
              column(1, actionButton(NS(id, "twoD_button"), "Show / Hide Function Code",
                                     onClick="show_hide('twoD_function')"))),
@@ -71,50 +64,40 @@ random2dUI <- function(id){
 
 random2dServer <- function(id){
   moduleServer(id, function(input, output, session){
-    red <- reactive({
-      set.seed(input$seed)
-      n = input$end
-      x = rep(NA, n+1)
-      x[1] = 0
-      y = rep(NA, n+1)
-      y[1] = 0
-      a = rep(NA, n+1)
-      a[1] = 0
 
-      for (t in 1:n) {
-        xy = random2d(x[t], y[t], a[t], speed = input$speed1, rho = input$rho1)
-        x[t+1] = xy[1]
-        y[t+1] = xy[2]
-        a[t+1] = xy[3]
+    walk <- reactive({
+      set.seed(121212)
+      some_letters = c("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k",
+                       "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w",
+                       "x", "y", "z")
+
+      result <- tibble::tibble(x=numeric(), y=numeric(), a=numeric(), participant=character())
+      for (participant in some_letters[1:input$participants]){
+        n = input$end
+        x = rep(NA, n+1)
+        x[1] = 0
+        y = rep(NA, n+1)
+        y[1] = 0
+        a = rep(NA, n+1)
+        a[1] = 0
+
+        for (t in 1:n) {
+          xy = random2d(x[t], y[t], a[t], speed = input$speed, rho = input$rho)
+          x[t+1] = xy[1]
+          y[t+1] = xy[2]
+          a[t+1] = xy[3]
+        }
+        result <- tibble::add_row(result, x=x, y=y, a=a, participant=participant)
       }
-      data.frame(x=x, y=y, a=a, participant="red")
+      result
     })
 
-    blue <- reactive({
-      set.seed(input$seed)
-      n = input$end
-      x = rep(NA, n+1)
-      x[1] = 0
-      y = rep(NA, n+1)
-      y[1] = 0
-      a = rep(NA, n+1)
-      a[1] = 0
-
-      for (t in 1:n) {
-        xy = random2d(x[t], y[t], a[t], speed = input$speed2, rho = input$rho2)
-        x[t+1] = xy[1]
-        y[t+1] = xy[2]
-        a[t+1] = xy[3]
-      }
-      data.frame(x=x, y=y, a=a, participant="blue")
-    })
 
 
     output$twoD_walk <- renderPlot({
-      df <- rbind(red(), blue())
-      ggplot2::ggplot(data = df, ggplot2::aes(x=x, y=y, colour=participant)) +
-        ggplot2::geom_path() +
-      ggplot2::scale_colour_manual(values = c("blue", "red"))
+      figure <- walk()
+      ggplot2::ggplot(figure, ggplot2::aes(x=x, y=y, colour=participant)) +
+        ggplot2::geom_path() + ggplot2::coord_fixed()
     })
 
     twoD_function_text <-"
