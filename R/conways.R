@@ -76,7 +76,7 @@ conwayServer <- function(id){
       par(mfrow=c(5,5),mar=c(1,1,2,2));
       for (i in 1:25){
         M=update(M);
-        image(M,col=c(rgb(1,1,1),rgb(0,0.5,0)),axes=FALSE,frame=TRUE);mtext(side=3,paste(quote(iteration),i-1));
+        image(M,col=c(rgb(1,1,1),rgb(0,0.5,0)),axes=FALSE,frame=TRUE, asp=1);mtext(side=3,paste(quote(iteration),i-1));
         }
       })
   })
